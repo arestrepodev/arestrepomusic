@@ -1,0 +1,112 @@
+---
+
+---
+
+<header
+  data-header
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-transparent py-4 transition-all duration-300"
+>
+  <div
+    class="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-4"
+  >
+    <a
+      href="/"
+      data-header-brand
+      class="text-lg font-semibold uppercase tracking-[0.15em] text-white transition-colors duration-200"
+    >
+      arestrepomusic
+    </a>
+
+    <nav aria-label="Primary navigation">
+      <ul
+        class="flex flex-wrap items-center gap-x-7 gap-y-3 text-xs font-medium uppercase tracking-[0.15em]"
+      >
+        <li>
+          <a
+            href="#home"
+            data-header-link
+            class="text-white/70 transition-colors duration-200 hover:text-white focus-visible:text-white"
+            >Inicio</a
+          >
+        </li>
+        <li>
+          <a
+            href="#services"
+            data-header-link
+            class="text-white/70 transition-colors duration-200 hover:text-white focus-visible:text-white"
+            >Servicios</a
+          >
+        </li>
+        <li>
+          <a
+            href="#study-cases"
+            data-header-link
+            class="text-white/70 transition-colors duration-200 hover:text-white focus-visible:text-white"
+            >Casos de Estudio</a
+          >
+        </li>
+        <li>
+          <a
+            href="#classes-tutorials"
+            data-header-link
+            class="text-white/70 transition-colors duration-200 hover:text-white focus-visible:text-white"
+            >Clases y Tutoriales</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector("[data-header]");
+  if (header) {
+    const brand = header.querySelector("[data-header-brand]");
+    const links = header.querySelectorAll("[data-header-link]");
+    let lastScrollY = window.scrollY;
+    let isScrollingDown = false;
+
+    const toggleScrollStyles = () => {
+      const currentScrollY = window.scrollY;
+      const scrolled = currentScrollY > 10;
+
+      // Determine scroll direction with a small threshold to prevent flickering
+      const scrollDifference = currentScrollY - lastScrollY;
+      if (Math.abs(scrollDifference) > 5) {
+        isScrollingDown = scrollDifference > 0;
+      }
+      lastScrollY = currentScrollY;
+
+      // Hide/show header based on scroll position and direction
+      // Hide when scrolling down past 100px, show when scrolling up or at top
+      const shouldHide = currentScrollY > 100 && isScrollingDown;
+
+      if (shouldHide) {
+        header.classList.add("-translate-y-full");
+      } else {
+        header.classList.remove("-translate-y-full");
+      }
+
+      // Toggle background and text colors
+      header.classList.toggle("bg-white", scrolled);
+      header.classList.toggle("text-black", scrolled);
+      header.classList.toggle("shadow-lg", scrolled);
+      header.classList.toggle("bg-transparent", !scrolled);
+      header.classList.toggle("text-white", !scrolled);
+      brand?.classList.toggle("text-black", scrolled);
+      brand?.classList.toggle("text-white", !scrolled);
+
+      links.forEach((link) => {
+        link.classList.toggle("text-[#949494]", scrolled);
+        link.classList.toggle("hover:text-[#555555]", scrolled);
+        link.classList.toggle("focus-visible:text-[#555555]", scrolled);
+        link.classList.toggle("text-white/70", !scrolled);
+        link.classList.toggle("hover:text-white", !scrolled);
+        link.classList.toggle("focus-visible:text-white", !scrolled);
+      });
+    };
+
+    toggleScrollStyles();
+    window.addEventListener("scroll", toggleScrollStyles, { passive: true });
+  }
+</script>
